@@ -1,0 +1,126 @@
+using AutoMapper;
+using FluentAssertions;
+using ManaFood.Application.Dtos;
+using ManaFood.Application.Interfaces;
+using ManaFood.Application.UseCases.UserUseCase.Commands.UpdateUser;
+using ManaFood.Domain.Entities;
+using ManaFood.Domain.Enums;
+using Moq;
+
+namespace ManaFood.Tests.Handlers;
+
+public class UpdateUserHandlerTests
+{
+    private readonly Mock<IUserRepository> _repositoryMock;
+    private readonly Mock<IMapper> _mapperMock;
+    private readonly UserValidationService _validationService; 
+    private readonly UpdateUserHandler _handler;
+
+    public UpdateUserHandlerTests()
+    {
+        _repositoryMock = new Mock<IUserRepository>();
+        _mapperMock = new Mock<IMapper>();
+        _validationService = new UserValidationService(_repositoryMock.Object);
+        
+        _handler = new UpdateUserHandler(
+            _repositoryMock.Object,
+            _mapperMock.Object,
+            _validationService
+        );
+    }
+
+    [Fact]
+    public async Task Handle_ShouldUpdateUser_WhenUserExists()
+    {
+        // Arrange
+        var userId = Guid.NewGuid();
+        var command = new UpdateUserCommand
+        (
+            userId,
+            "updated@test.com",
+            "Updated User",
+            "11144477735",
+            "12345678",
+            new DateOnly(2000, 1, 1),
+            1
+        );
+
+        var existingUser = new User
+        {
+            Id = userId,
+            Email = "old@test.com",
+            Name = "Old User",
+            Cpf = "11144477735",
+            Password = "password",
+            Birthday = new DateOnly(2000, 1, 1),
+            UserType = UserType.CUSTOMER
+        };
+
+        var userDto = new UserDto
+        {
+            Id = userId,
+            Email = command.Email,
+            Name = command.Name,
+            Cpf = command.Cpf,
+            Password = command.Password,
+            Birthday = command.Birthday,
+            UserType = command.UserType
+        };
+
+        var callCount = 0;
+        _repositoryMock.Setup(r => r.GetBy(
+                It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(), 
+                It.IsAny<CancellationToken>(), 
+                It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
+            .ReturnsAsync((System.Linq.Expressions.Expression<Func<User, bool>> predicate, 
+                          CancellationToken ct, 
+                          System.Linq.Expressions.Expression<Func<User, object>>[] includes) =>
+            {
+                callCount++;
+                if (callCount == 1) return existingUser;
+                return null;
+            });
+
+        _repositoryMock.Setup(r => r.Update(existingUser, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(existingUser);
+        _mapperMock.Setup(m => m.Map<UserDto>(existingUser)).Returns(userDto);
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        existingUser.Email.Should().Be(command.Email);
+        existingUser.Name.Should().Be(command.Name);
+        _repositoryMock.Verify(r => r.Update(existingUser, It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldThrowException_WhenUserNotFound()
+    {
+        // Arrange
+        var command = new UpdateUserCommand
+        (
+            Guid.NewGuid(),
+            "test@test.com",
+            "Test",
+            "11144477735",
+            "12345678",
+            new DateOnly(2000, 1, 1),
+            1
+        );
+
+        _repositoryMock.Setup(r => r.GetBy(
+                It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(), 
+                It.IsAny<CancellationToken>(), 
+                It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
+            .ReturnsAsync((User)null);
+
+        // Act
+        var act = async () => await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<ArgumentException>()
+            .WithMessage($"Usuário com ID {command.Id} não encontrado");
+    }
+}
