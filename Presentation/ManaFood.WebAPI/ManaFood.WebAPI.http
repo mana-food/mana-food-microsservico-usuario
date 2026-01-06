@@ -1,0 +1,6 @@
+@ManaFood.WebAPI_HostAddress = http://localhost:5111
+
+GET {{ManaFood.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
