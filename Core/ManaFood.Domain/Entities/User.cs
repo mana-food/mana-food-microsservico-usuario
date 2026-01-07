@@ -3,7 +3,7 @@ using ManaFood.Domain.Enums;
 
 namespace ManaFood.Domain.Entities;
 
-[DynamoDBTable("Users")]
+[DynamoDBTable("mana-food-users")]
 public class User : BaseEntity
 {
     [DynamoDBProperty]
