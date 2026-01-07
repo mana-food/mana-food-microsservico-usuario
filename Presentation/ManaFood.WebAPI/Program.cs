@@ -1,23 +1,18 @@
 using ManaFood.Infrastructure.Configurations;
 using ManaFood.Application.Configurations;
-
-using ManaFood.Application.Interfaces.Services;
-using ManaFood.Application.Services;
-
 using Microsoft.OpenApi.Models;
-using ManaFood.WebAPI.Middlewares;
+using System.IdentityModel.Tokens.Jwt;
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureAuth(builder.Configuration);
-
-// Configurações de infraestrutura e aplicação
 builder.Services.ConfigurePersistenceApp();
 builder.Services.ConfigureApplicationApp();
 
 builder.Services.AddControllers();
 
-// Swagger com segurança
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ManaFood API - User Service", Version = "v1" });
@@ -52,7 +47,6 @@ builder.Services.AddOpenApi();
 
 // Injeção de dependências
 builder.Services.AddTransient<UserValidationService>();
-builder.Services.AddScoped<IAuthAppService, AuthAppService>();
 
 var app = builder.Build();
 
@@ -68,8 +62,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<JwtAuthenticationMiddleware>();
 
 app.MapControllers();
 

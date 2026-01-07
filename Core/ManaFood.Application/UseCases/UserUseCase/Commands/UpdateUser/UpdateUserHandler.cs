@@ -3,6 +3,7 @@ using ManaFood.Application.Dtos;
 using ManaFood.Application.Interfaces;
 using MediatR;
 using ManaFood.Domain.Enums;
+using ManaFood.Application.Utils;
 
 namespace ManaFood.Application.UseCases.UserUseCase.Commands.UpdateUser;
 
@@ -32,6 +33,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UserDto>
         user.Name = request.Name;
         user.Email = request.Email;
         user.Cpf = request.Cpf;
+        user.Password = PasswordHasher.HashPassword(request.Password);
         user.Birthday = request.Birthday;
         user.UserType = (UserType)request.UserType;
         user.UpdatedAt = DateTime.UtcNow;

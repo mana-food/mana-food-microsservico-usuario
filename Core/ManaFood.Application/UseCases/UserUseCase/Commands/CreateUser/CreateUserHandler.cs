@@ -2,6 +2,7 @@
 using ManaFood.Application.Dtos;
 using ManaFood.Domain.Entities;
 using ManaFood.Application.Interfaces;
+using ManaFood.Application.Utils;
 using MediatR;
 
 namespace ManaFood.Application.UseCases.UserUseCase.Commands.CreateUser;
@@ -24,6 +25,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
     {
 
         var user = _mapper.Map<User>(request);
+        user.Password = PasswordHasher.HashPassword(request.Password);
 
         await _userValidationService.ValidateUniqueEmailAndCpfAsync(user, cancellationToken);
 
