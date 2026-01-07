@@ -7,7 +7,7 @@ data:
   Logging__LogLevel__Microsoft.AspNetCore: "Warning"
   AllowedHosts: "*"
   AWS_REGION: "us-east-1"
-  AWS_SERVICE_URL: "http://manafood-dynamodb:8000"
+  AWS_SERVICE_URL: "http://manafood-dynamodb:8000" #NOSONAR
   Jwt__Issuer: "ManaFoodIssuer"
   Jwt__Audience: "ManaFoodAudience"
   Jwt__ExpirationMinutes: "60"
