@@ -12,6 +12,7 @@ public static class ServiceExtensions
     public static void ConfigurePersistenceApp(this IServiceCollection services)
     {
         var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "us-east-1";
+        var serviceUrl = Environment.GetEnvironmentVariable("DYNAMODB_ENDPOINT");
         
         services.AddSingleton<IAmazonDynamoDB>(sp =>
         {
@@ -19,6 +20,12 @@ public static class ServiceExtensions
             {
                 RegionEndpoint = RegionEndpoint.GetBySystemName(region)
             };
+            
+            if (!string.IsNullOrEmpty(serviceUrl))
+            {
+                config.ServiceURL = serviceUrl;
+            }
+            
             return new AmazonDynamoDBClient(config);
         });
 
