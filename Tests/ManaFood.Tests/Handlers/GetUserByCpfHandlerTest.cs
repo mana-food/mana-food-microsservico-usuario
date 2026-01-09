@@ -94,7 +94,7 @@ public class GetUserByCpfHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync((User)null);
+            .ReturnsAsync(null as User);
 
         _mapperMock.Setup(m => m.Map<UserDto>(null))
             .Returns((UserDto)null);
@@ -123,7 +123,7 @@ public class GetUserByCpfHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync((User)null);
+            .ReturnsAsync(null as User);
 
         _mapperMock.Setup(m => m.Map<UserDto>(null))
             .Returns((UserDto)null);
