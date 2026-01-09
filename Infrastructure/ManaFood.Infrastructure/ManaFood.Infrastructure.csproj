@@ -11,8 +11,6 @@
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.17" />
     <PackageReference Include="AWSSDK.SecretsManager" Version="4.0.1.6" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="4.0.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7" />
-    <PackageReference Include="QRCoder" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
