@@ -1,5 +1,6 @@
 using ManaFood.Infrastructure.Configurations;
 using ManaFood.Application.Configurations;
+using ManaFood.Application.Services;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,4 +35,4 @@ app.MapControllers();
 
 app.MapGet("/healthz", () => Results.Ok(new { status = "ok" }));
 
-app.Run();
+await app.RunAsync();

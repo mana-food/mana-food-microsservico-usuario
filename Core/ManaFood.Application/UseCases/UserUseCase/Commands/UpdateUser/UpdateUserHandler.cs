@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ManaFood.Application.Dtos;
 using ManaFood.Application.Interfaces;
+using ManaFood.Application.Services;
 using MediatR;
 using ManaFood.Domain.Enums;
 using ManaFood.Application.Utils;

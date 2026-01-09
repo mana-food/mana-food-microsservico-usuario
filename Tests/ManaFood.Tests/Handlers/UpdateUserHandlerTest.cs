@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using ManaFood.Application.Dtos;
 using ManaFood.Application.Interfaces;
+using ManaFood.Application.Services;
 using ManaFood.Application.UseCases.UserUseCase.Commands.UpdateUser;
 using ManaFood.Domain.Entities;
 using ManaFood.Domain.Enums;
@@ -243,7 +244,8 @@ public class UpdateUserHandlerTests
         existingUser.Email.Should().Be("newemail@test.com");
         existingUser.Name.Should().Be("New Name");
         existingUser.Cpf.Should().Be("22255588899");
-        existingUser.Password.Should().Be("newpassword123");
+        existingUser.Password.Should().NotBeNullOrEmpty("password should be hashed");
+        existingUser.Password.Should().NotBe("newpassword123", "password should be hashed, not plain text");
         existingUser.Birthday.Should().Be(newBirthday);
         existingUser.UserType.Should().Be((UserType)2);
     }

@@ -2,6 +2,7 @@ using AutoMapper;
 using FluentAssertions;
 using ManaFood.Application.Dtos;
 using ManaFood.Application.Interfaces;
+using ManaFood.Application.Services;
 using ManaFood.Application.UseCases.UserUseCase.Commands.CreateUser;
 using ManaFood.Domain.Entities;
 using ManaFood.Domain.Enums;

@@ -1,6 +1,8 @@
 using ManaFood.Application.Interfaces;
 using ManaFood.Domain.Entities;
 
+namespace ManaFood.Application.Services;
+
 public class UserValidationService
 {
     private readonly IUserRepository _repository;
@@ -16,14 +18,14 @@ public class UserValidationService
         var existingUser = await _repository.GetBy(u => u.Email == user.Email, cancellationToken);
         if (existingUser != null && existingUser.Id != user.Id)
         {
-            throw new Exception($"Esse email {user.Email} já está vinculado a um usuário. Escolha outro email.");
+            throw new InvalidOperationException($"Esse email {user.Email} já está vinculado a um usuário. Escolha outro email.");
         }
 
         // Verifica se o CPF já pertence a outro usuário
         var existingUserByCpf = await _repository.GetBy(u => u.Cpf == user.Cpf, cancellationToken);
         if (existingUserByCpf != null && existingUserByCpf.Id != user.Id)
         {
-            throw new Exception($"Esse CPF {user.Cpf} já está vinculado a um usuário. Verifique se já não possui um usuário com este CPF.");
+            throw new InvalidOperationException($"Esse CPF {user.Cpf} já está vinculado a um usuário. Verifique se já não possui um usuário com este CPF.");
         }
     }
 }

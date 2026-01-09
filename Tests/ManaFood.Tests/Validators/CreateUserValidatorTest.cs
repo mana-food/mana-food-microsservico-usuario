@@ -62,7 +62,7 @@ public class CreateUserValidatorTests
         // Arrange
         var command = new CreateUserCommand(
             "test@test.com",
-            null,
+            null!,
             "11144477735",
             "password123",
             new DateOnly(2000, 1, 1),
@@ -128,7 +128,7 @@ public class CreateUserValidatorTests
     {
         // Arrange
         var command = new CreateUserCommand(
-            null,
+            null!,
             "Test User",
             "11144477735",
             "password123",
@@ -197,7 +197,7 @@ public class CreateUserValidatorTests
         var command = new CreateUserCommand(
             "test@test.com",
             "Test User",
-            null,
+            null!,
             "password123",
             new DateOnly(2000, 1, 1),
             1
@@ -286,7 +286,7 @@ public class CreateUserValidatorTests
             "test@test.com",
             "Test User",
             "11144477735",
-            null,
+            null!,
             new DateOnly(2000, 1, 1),
             1
         );
