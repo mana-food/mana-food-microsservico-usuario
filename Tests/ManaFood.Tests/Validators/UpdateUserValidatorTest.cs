@@ -65,7 +65,7 @@ public class UpdateUserValidatorTests
         var command = new UpdateUserCommand(
             Guid.NewGuid(),
             "test@test.com",
-            null,
+            null!,
             "11144477735",
             "password123",
             new DateOnly(2000, 1, 1),
@@ -134,7 +134,7 @@ public class UpdateUserValidatorTests
         // Arrange
         var command = new UpdateUserCommand(
             Guid.NewGuid(),
-            null,
+            null!,
             "Test User",
             "11144477735",
             "password123",
@@ -206,7 +206,7 @@ public class UpdateUserValidatorTests
             Guid.NewGuid(),
             "test@test.com",
             "Test User",
-            null,
+            null!,
             "password123",
             new DateOnly(2000, 1, 1),
             1
@@ -299,7 +299,7 @@ public class UpdateUserValidatorTests
             "test@test.com",
             "Test User",
             "11144477735",
-            null,
+            null!,
             new DateOnly(2000, 1, 1),
             1
         );
