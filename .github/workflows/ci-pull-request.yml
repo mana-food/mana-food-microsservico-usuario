@@ -48,6 +48,7 @@ jobs:
       - name: Instalar ferramentas
         run: |
           dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-coverage
 
       - name: Executar Análise SonarCloud
         env:
@@ -59,13 +60,18 @@ jobs:
             /o:"mana-food" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="$SONAR_TOKEN" \
-            /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.cobertura.xml" \
+            /d:sonar.cs.vscoveragexml.reportsPaths="**/TestResults/**/*.xml" \
             /d:sonar.coverage.exclusions="**/Program.cs,**/Migrations/**,**/Tests/**" \
             /d:sonar.exclusions="**/bin/**,**/obj/**,**/*.dll,**/*.exe,**/Migrations/**,**/Tests/**"
           dotnet build --configuration Release --no-incremental
           dotnet test --configuration Release --no-build --verbosity normal \
-            --collect:"XPlat Code Coverage" \
-            --results-directory ./TestResults/
-          echo "=== Coverage files generated ==="
-          find ./TestResults -name "coverage.cobertura.xml" -type f -exec ls -lh {} \;
+            --collect:"Code Coverage"
+          echo "=== Converting .coverage files to XML ==="
+          for file in $(find . -name "*.coverage" -type f); do
+            echo "Converting: $file"
+            dotnet-coverage merge -f xml -o "${file%.coverage}.xml" "$file"
+          done
+          echo ""
+          echo "=== Converted XML files ==="
+          find . -name "*.xml" -path "*/TestResults/*" -type f -exec ls -lh {} \;
           dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
