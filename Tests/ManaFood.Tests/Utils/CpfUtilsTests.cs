@@ -25,7 +25,7 @@ public class CpfUtilsTests
     public void IsValidCpf_ShouldReturnFalse_WhenCpfIsNull()
     {
         // Act
-        var result = CpfUtils.IsValidCpf(null);
+        var result = CpfUtils.IsValidCpf(null!);
 
         // Assert
         result.Should().BeFalse();
