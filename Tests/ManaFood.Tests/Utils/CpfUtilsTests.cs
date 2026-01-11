@@ -15,7 +15,7 @@ public class CpfUtilsTests
     public void IsValidCpf_ShouldValidateCorrectly(string? cpf, bool expected)
     {
         // Act
-        var result = CpfUtils.IsValidCpf(cpf);
+        var result = CpfUtils.IsValidCpf(cpf!);
 
         // Assert
         result.Should().Be(expected);
