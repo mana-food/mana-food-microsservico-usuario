@@ -45,7 +45,7 @@ jobs:
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.token="$SONAR_TOKEN" \
             /d:sonar.cs.vscoveragexml.reportsPaths="**/TestResults/**/*.xml" \
-            /d:sonar.coverage.exclusions="**/Program.cs,**/Migrations/**,**/Tests/**" \
+            /d:sonar.coverage.exclusions="**/Infrastructure/**,**/Program.cs,**/Migrations/**,**/Tests/**" \
             /d:sonar.exclusions="**/bin/**,**/obj/**,**/*.dll,**/*.exe,**/Migrations/**,**/Tests/**"
 
       - name: Build for Analysis
