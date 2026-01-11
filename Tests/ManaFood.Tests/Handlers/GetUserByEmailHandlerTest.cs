@@ -94,10 +94,10 @@ public class GetUserByEmailHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync(null as User);
+            .ReturnsAsync((User?)null);
 
-        _mapperMock.Setup(m => m.Map<UserDto>(null))
-            .Returns((UserDto)null);
+        _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>()))
+            .Returns((UserDto?)null);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -123,10 +123,10 @@ public class GetUserByEmailHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync(null as User);
+            .ReturnsAsync((User?)null);
 
-        _mapperMock.Setup(m => m.Map<UserDto>(null))
-            .Returns((UserDto)null);
+        _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>()))
+            .Returns((UserDto?)null);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
