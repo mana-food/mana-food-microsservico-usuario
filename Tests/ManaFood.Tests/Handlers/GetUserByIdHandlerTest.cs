@@ -71,8 +71,8 @@ public class GetUserByIdHandlerTests
         var query = new GetUserByIdQuery(Guid.NewGuid());
 
         _repositoryMock.Setup(r => r.GetBy(It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(), It.IsAny<CancellationToken>(), It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync((User?)null);
-        _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>())).Returns((UserDto?)null);
+            .ReturnsAsync((User?)null!);
+        _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>())).Returns((UserDto?)null!);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);

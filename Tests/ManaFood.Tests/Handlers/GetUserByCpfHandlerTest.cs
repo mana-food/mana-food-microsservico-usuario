@@ -94,10 +94,10 @@ public class GetUserByCpfHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync((User?)null);
+            .ReturnsAsync((User?)null!);
 
         _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>()))
-            .Returns((UserDto?)null);
+            .Returns((UserDto?)null!);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -123,10 +123,10 @@ public class GetUserByCpfHandlerTests
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, object>>[]>()))
-            .ReturnsAsync((User?)null);
+            .ReturnsAsync((User?)null!);
 
         _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>()))
-            .Returns((UserDto?)null);
+            .Returns((UserDto?)null!);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -220,7 +220,7 @@ public class GetUserByCpfHandlerTests
             UserType = (int)user.UserType
         };
 
-        System.Linq.Expressions.Expression<Func<User, bool>> capturedPredicate = null;
+        System.Linq.Expressions.Expression<Func<User, bool>>? capturedPredicate = null;
 
         _repositoryMock.Setup(r => r.GetBy(
                 It.IsAny<System.Linq.Expressions.Expression<Func<User, bool>>>(),
