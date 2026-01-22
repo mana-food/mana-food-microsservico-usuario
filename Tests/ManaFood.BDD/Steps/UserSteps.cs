@@ -9,6 +9,7 @@ using ManaFood.Application.UseCases.UserUseCase.Queries.GetUserByEmail;
 using ManaFood.Application.UseCases.UserUseCase.Queries.GetUserByCpf;
 using ManaFood.Application.UseCases.UserUseCase.Queries.GetAllUsers;
 using ManaFood.Application.Mappings;
+using ManaFood.Application.Services;
 using ManaFood.Domain.Entities;
 using ManaFood.Domain.Enums;
 using AutoMapper;
